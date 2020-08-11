@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {withRouter, Route} from 'react-router-dom';
+import Room from './Room';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  goToRoom = ( event ) => {
+    event.preventDefault();
+    this.props.history.push(`/room/${event.target.chatRoom.value}`)
+
+  } 
+
+  render(){
+    return (
+      <div className="App">
+        <h1>
+          ¡Welcome to the chat rooms app!
+        </h1>
+        <form onSubmit={this.goToRoom}>
+          <label htmlFor="chatRoom">
+            Which room do you want to visit?
+          </label>
+          <input type="text" id="chatRoom" name="chatRoom" />
+          <button type="submit">
+            Let's go
+          </button>
+        </form>
+        <Route path="/room/:id" render={ (props) => <Room {...props} />}/>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter( App );
